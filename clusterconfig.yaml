@@ -1,0 +1,6 @@
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+servers: 1
+ports:
+  - port: 80:31080
+  - port: 443:31443
