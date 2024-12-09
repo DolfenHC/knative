@@ -12,12 +12,21 @@ $ kubectl get pods -n knative-serving
 $ chmod 777 ./install-service.sh
 $ ./install-service.sh
 
+## Aufruf des Services
+$ curl http://hello.default.127.0.0.1.sslip.io
+
 ## Installation der Function
 $ chmod 777 ./install-function.sh
 $ ./install-function.sh
 
-## Aufruf des Services
-$ curl http://hello.default.127.0.0.1.sslip.io
+## Aufruf der Function
+$ curl http://demo.default.127.0.0.1.sslip.io
+
+## Installation des Eventings
+$ kn broker create default
+$ kn service create event-display --image gcr.io/knative-releases/knative.dev/eventing/cmd/event_display
+$ kn trigger create all-events --sink event-display --broker default
+$ kn source ping create ping --schedule "*/1 * * * *" --data '{message:"Hello from PingSource"}' --sink "http://event-display.default.svc.cluster.local"
 
 ## Troubleshooting
 Are you seeing curl: (6) Could not resolve host: hello.default.127.0.0.1.sslip.io?
